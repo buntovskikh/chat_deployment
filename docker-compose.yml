@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+
+  web:
+    build: ./../chat_be
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./../chat_be:/usr/src/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  sveltekit-app:
+    build: ./../chat-fe
+    ports:
+      - "5173:5173"
+    environment:
+      ORIGIN: http://localhost:5173
+      PUBLIC_API_URL: http://web:8000
+      PUBLIC_WS_URL: ws://localhost:8000/ws/chat
+
+volumes:
+  postgres_data:
