@@ -29,7 +29,7 @@ services:
         condition: service_healthy
 
   frontend:
-    image: mariabuntovskikh/chat_fe:v1
+    image: mariabuntovskikh/chat_fe
     ports:
       - "5173:5173"
     environment:
