@@ -3,7 +3,6 @@ version: '3.8'
 services:
   db:
     image: postgres
-    platform: linux/arm64
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
